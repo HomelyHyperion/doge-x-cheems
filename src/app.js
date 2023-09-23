@@ -8,6 +8,9 @@ import { preload, loadMesh, glbSrc } from "./lib/spawner.js";
 import iconFiles from "./media/2d/icons/*.png";
 import soundFiles from "./media/sounds/*.mp3";
 
+// gif
+import explosionGifSrc from "./media/2d/gif/explosion.gif";
+
 // preload sounds
 let sounds = {};
 sounds.explosion = new Howl({ src: [soundFiles.explosion] });
@@ -166,9 +169,33 @@ const undo = () => {
     sounds.undo.play();
   }
 
+  // hide ui
   if (items.length === 0) {
     document.querySelector("nav").classList.add("hidden");
   }
+};
+
+const bomb = () => {
+  isUI = true;
+  sounds.explosion.play();
+  let explGif = new Image();
+  explGif.src = explosionGifSrc + "?z=" + Math.random();
+  
+  let gif = document.createElement("img");
+  gif.setAttribute("src", explGif.src);
+  document.querySelector(".gifcontainer").appendChild(gif);
+  
+  window.setTimeout(() => {
+    items.map((ball) => { scene.remove(ball.mesh); });
+    items = [];
+    renderer.renderLists.dispose();
+    document.querySelector("nav").classList.add("hidden");
+    window.navigator.vibrate(1000);
+  }, 400);
+  
+  window.setTimeout(() => {
+    document.querySelector(".gifcontainer").innerHTML = "";
+  }, 1200);
 };
 
 const toggleHints = () => {
@@ -280,6 +307,7 @@ renderer.xr.addEventListener("sessionstart", function (event) {
 });
 
 document.querySelector(".undo").onclick = undo;
+document.querySelector(".bomb").onclick = bomb;
 
 // Yay 🎨
 animate();
