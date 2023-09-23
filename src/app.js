@@ -154,6 +154,23 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+const undo = () => {
+  if (items.length > 0) {
+    window.setTimeout(() => {
+      window.navigator.vibrate(40);
+    }, 200);
+    let ball = items[items.length - 1];
+    scene.remove(ball.mesh);
+    items.pop();
+    isUI = true;
+    sounds.undo.play();
+  }
+
+  if (items.length === 0) {
+    document.querySelector("nav").classList.add("hidden");
+  }
+};
+
 const toggleHints = () => {
   const hints = document.querySelector(".hints");
   const bottom = document.querySelector(".bottom");
@@ -261,6 +278,8 @@ renderer.xr.addEventListener("sessionstart", function (event) {
   document.querySelector("#splash").remove();
   console.log("scene started");
 });
+
+document.querySelector(".undo").onclick = undo;
 
 // Yay 🎨
 animate();
