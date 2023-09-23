@@ -15,8 +15,8 @@ import explosionGifSrc from "./media/2d/gif/explosion.gif";
 let sounds = {};
 sounds.explosion = new Howl({ src: [soundFiles.explosion] });
 sounds.undo = new Howl({ src: [soundFiles.undo] });
-sounds.click = new Howl({ src: [soundFiles.click] });
-sounds.cluck = new Howl({ src: [soundFiles.cluck] });
+sounds.tick = new Howl({ src: [soundFiles.tick] });
+sounds.tock = new Howl({ src: [soundFiles.tock] });
 
 // convert icons to array
 const iconSRC = Object.keys(iconFiles).map(function (key) {
@@ -198,6 +198,26 @@ const bomb = () => {
   }, 1200);
 };
 
+const nextIcon = () => {
+  iconIndex++;
+  sounds.tick.play();
+  updateIcon();
+};
+
+const prevIcon = () => {
+  iconIndex--;
+  sounds.tock.play();
+  updateIcon();
+};
+
+const updateIcon = () => {
+  isUI = true;
+  const i = Math.abs(iconIndex % icons.length);
+  icon = icons[i].src;
+  document.querySelector(".icon").setAttribute("src", icon);
+  window.navigator.vibrate(40);
+};
+
 const toggleHints = () => {
   const hints = document.querySelector(".hints");
   const bottom = document.querySelector(".bottom");
@@ -308,6 +328,8 @@ renderer.xr.addEventListener("sessionstart", function (event) {
 
 document.querySelector(".undo").onclick = undo;
 document.querySelector(".bomb").onclick = bomb;
+document.querySelector(".prev").onclick = prevIcon;
+document.querySelector(".next").onclick = nextIcon;
 
 // Yay 🎨
 animate();
