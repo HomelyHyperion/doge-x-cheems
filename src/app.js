@@ -1,15 +1,15 @@
 import * as THREE from "three";
-import { ARButton } from "./lib/ARButton.js";
+import { ARButton } from "/src/lib/ARButton.js";
 import { Howl } from "howler";
-import { Item } from "./lib/Item.js";
-import { preload, loadMesh, glbSrc } from "./lib/spawner.js";
+import { Item } from "/src/lib/Item.js";
+import { preload, loadMesh, glbSrc } from "/src/lib/spawner.js";
 
 // media assets
-import iconFiles from "./media/2d/icons/*.png";
-import soundFiles from "./media/sounds/*.mp3";
+const iconFiles = ["src/media/2d/icons/hotdog.png", "src/media/2d/icons/cheems.png", "src/media/2d/icons/doge.png", "src/media/2d/icons/nouns.png"]
+const soundFiles = ["src/media/sounds/explosion.mp3", "src/media/sounds/laser.mp3", "src/media/sounds/squelch.mp3", "src/media/sounds/tick.mp3", "src/media/sounds/tock.mp3", "src/media/sounds/undo.mp3"];
 
 // gif
-import explosionGifSrc from "./media/2d/gif/explosion.gif";
+import explosionGifSrc from "/src/media/2d/gif/explosion.gif";
 
 // preload sounds
 let sounds = {};
@@ -89,7 +89,7 @@ const init = () => {
       if (reticle.visible) {
         const height = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld).y;
         const pos = new THREE.Vector3().setFromMatrixPosition(reticle.matrix);
-        const thing = icon.split("/")[3].split(".")[0];
+        const thing = icon.split("/").reverse()[0].split(".")[0];
 
         let item = new Item(pos, height, thing);
 

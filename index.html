@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Doge x Cheems</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/png" href="src/media/2d/favicon.png">
+    <link rel="stylesheet" href="src/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app">
+      <w3m-core-button></w3m-core-button>
+    </div>
+    <div id="splash">
+      <div class="loader">
+          <h2>loading </h2>
+          <h2>...</h2>
+      </div>
+      <div class="hidden cool-stuff">
+          <div class="banner">
+              <h2>WebXR not supported on this device. Try reloading the page from a WebXR enabled phone.</h2>
+          </div>
+          <div class="title">
+              <h1>Doge x Cheems</h1>
+          </div>
+          <div class="sub">
+              <p> A Web3 AR experiment</p>
+              <p> <a href="https://github.com/HomelyHyperion/doge-x-cheems" target="_blank">source code</a></p>
+              <w3m-core-button> </w3m-core-button>
+          </div>
+          <div class="arrows"><img src="src/media/2d/UI/arrows.png" alt="arrows"></div>
+      </div>
+  </div>
+  <div class="hidden" id="overlay">
+      <div class="hints"><img class="scan" src="src/media/2d/gif/scan.gif" alt="scan">
+          <div class="copy">
+              <p>scan the floors and surfaces around you</p>
+          </div>
+      </div>
+      <div class="subhint hidden"><img class="tap" src="src/media/2d/gif/tap.gif" alt="tap">
+          <p>now tap to drop!</p>
+      </div>
+      <div class="gifcontainer"> </div>
+      <nav class="hidden"><button class="but undo"><img src="src/media/2d/UI/undo.png" alt="undo"></button><button class="but bomb"><img src="src/media/2d/UI/bomb.png" alt="bomb"></button></nav>
+      <div class="bottom hidden"><button class="but prev"> <img src="src/media/2d/UI/arrow.png" alt="arrow"></button>
+          <div class="status"><img class="icon" src="src/media/2d/icons/hotdog.png" alt="ico"></div><button class="but next"><img src="src/media/2d/UI/arrow.png" alt="arrow"></button>
+      </div>
+  </div>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>

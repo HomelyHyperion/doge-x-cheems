@@ -1,7 +1,20 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import sounds from "../media/sounds/*.mp3";
-import glbs from "../media/3d/*.glb";
+
+const sounds = {
+    explosion: "src/media/sounds/explosion.mp3", 
+    laser: "src/media/sounds/laser.mp3",
+    squelch: "src/media/sounds/squelch.mp3",
+    tick: "src/media/sounds/tick.mp3",
+    tock: "src/media/sounds/tock.mp3",
+    undo: "src/media/sounds/undo.mp3"
+};
+const glbs = {
+    hotdog: "src/media/3d/hotdog.glb",
+    cheems: "src/media/3d/cheems.glb",
+    doge: "src/media/3d/doge.glb",
+    nouns: "src/media/3d/nouns.glb"
+}
 
 let models = {};
 
