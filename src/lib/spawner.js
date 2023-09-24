@@ -7,7 +7,7 @@ const sounds = {
     squelch: "src/media/sounds/squelch.mp3",
     tick: "src/media/sounds/tick.mp3",
     tock: "src/media/sounds/tock.mp3",
-    undo: "src/media/sounds/undo.mp3"
+    pop: "src/media/sounds/pop.mp3"
 };
 const glbs = {
     hotdog: "src/media/3d/hotdog.glb",

@@ -6,14 +6,14 @@ import { preload, loadMesh, glbSrc } from "/src/lib/spawner.js";
 
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi'
 
-import { mainnet, arbitrum } from '@wagmi/core/chains'
+import { mainnet, goerli } from '@wagmi/core/chains'
 import { getAccount, sepolia } from '@wagmi/core'
 
 // 1. Define constants
 const projectId = '18e35bd4d56a0c39358ca2f60f0baf00'
 
 // 2. Create wagmiConfig
-const chains = [sepolia, mainnet]
+const chains = [goerli, sepolia, mainnet]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, appName: 'Web3Modal' })
 
 // 3. Create modal
@@ -21,7 +21,7 @@ const modal = createWeb3Modal({ wagmiConfig, projectId, chains })
 
 // media assets
 const iconFiles = ["src/media/2d/icons/hotdog.png", "src/media/2d/icons/cheems.png", "src/media/2d/icons/doge.png", "src/media/2d/icons/nouns.png"]
-const soundFiles = ["src/media/sounds/explosion.mp3", "src/media/sounds/laser.mp3", "src/media/sounds/squelch.mp3", "src/media/sounds/tick.mp3", "src/media/sounds/tock.mp3", "src/media/sounds/undo.mp3"];
+const soundFiles = ["src/media/sounds/explosion.mp3", "src/media/sounds/laser.mp3", "src/media/sounds/squelch.mp3", "src/media/sounds/tick.mp3", "src/media/sounds/tock.mp3", "src/media/sounds/pop.mp3"];
 
 // gif
 import explosionGifSrc from "/src/media/2d/gif/explosion.gif";
@@ -29,7 +29,7 @@ import explosionGifSrc from "/src/media/2d/gif/explosion.gif";
 // preload sounds
 let sounds = {};
 sounds.explosion = new Howl({ src: [soundFiles.explosion] });
-sounds.undo = new Howl({ src: [soundFiles.undo] });
+sounds.pop = new Howl({ src: [soundFiles.pop] });
 sounds.tick = new Howl({ src: [soundFiles.tick] });
 sounds.tock = new Howl({ src: [soundFiles.tock] });
 
@@ -66,6 +66,8 @@ let isTracked = false;
 let isStarted = false;
 let floater = null;
 let items = [];
+let lat = 0;
+let long = 0;
 
 // set gravity
 const gravity = new THREE.Vector3(0, -0.01, 0);
@@ -73,6 +75,17 @@ const gravity = new THREE.Vector3(0, -0.01, 0);
 const init = () => {
   container = document.createElement("div");
   document.body.appendChild(container);
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+
+  function showPosition(position) {
+    lat = position.coords.latitude;
+    long = position.coords.longitude;
+  }
 
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
@@ -172,16 +185,44 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-const undo = () => {
+const love = () => {
   if (items.length > 0) {
+    document.querySelector("nav").classList.add("hidden");
+
     window.setTimeout(() => {
       window.navigator.vibrate(40);
     }, 200);
-    let ball = items[items.length - 1];
-    scene.remove(ball.mesh);
-    items.pop();
+
+    const account = getAccount();
+    
+    const options = {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        Authorization: '36fd2c70-df11-4b3b-9bc7-de9c7b257053'
+      },
+      body: JSON.stringify({
+        chain: 'goerli',
+        name: 'ETHGlobalNYC',
+        description: `[${lat}, ${long}]`,
+        file_url: 'https://ipfs.io/ipfs/bafkreicaamlvvsn6v2up5lf2i5xawixfxbzbxt6hl7pfmrhdglbi36a7iq',
+        mint_to_address: account.address
+      })
+    };
+    
+    fetch('https://api.nftport.xyz/v0/mints/easy/urls', options)
+      .then(response => response.json())
+      .then(response => {
+        window.location.href = response.transaction_external_url;
+      })
+      .catch(err => {
+        document.querySelector("nav").classList.remove("hidden");
+        console.error(err);
+      });
+
     isUI = true;
-    sounds.undo.play();
+    sounds.pop.play();
   }
 
   // hide ui
@@ -341,7 +382,7 @@ renderer.xr.addEventListener("sessionstart", function (event) {
   console.log("scene started");
 });
 
-document.querySelector(".undo").onclick = undo;
+document.querySelector(".love").onclick = love;
 document.querySelector(".bomb").onclick = bomb;
 document.querySelector(".prev").onclick = prevIcon;
 document.querySelector(".next").onclick = nextIcon;
