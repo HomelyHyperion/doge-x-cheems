@@ -359,4 +359,10 @@ table {
   canvas {
     z-index: 1;
   }
-  
+  w3m-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 10px;
+  }

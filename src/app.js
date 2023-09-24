@@ -4,6 +4,21 @@ import { Howl } from "howler";
 import { Item } from "/src/lib/Item.js";
 import { preload, loadMesh, glbSrc } from "/src/lib/spawner.js";
 
+import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi'
+
+import { mainnet, arbitrum } from '@wagmi/core/chains'
+import { getAccount, sepolia } from '@wagmi/core'
+
+// 1. Define constants
+const projectId = '18e35bd4d56a0c39358ca2f60f0baf00'
+
+// 2. Create wagmiConfig
+const chains = [sepolia, mainnet]
+const wagmiConfig = defaultWagmiConfig({ chains, projectId, appName: 'Web3Modal' })
+
+// 3. Create modal
+const modal = createWeb3Modal({ wagmiConfig, projectId, chains })
+
 // media assets
 const iconFiles = ["src/media/2d/icons/hotdog.png", "src/media/2d/icons/cheems.png", "src/media/2d/icons/doge.png", "src/media/2d/icons/nouns.png"]
 const soundFiles = ["src/media/sounds/explosion.mp3", "src/media/sounds/laser.mp3", "src/media/sounds/squelch.mp3", "src/media/sounds/tick.mp3", "src/media/sounds/tock.mp3", "src/media/sounds/undo.mp3"];
